@@ -130,3 +130,5 @@ kernel/configs/android-*.cfg
 #
 Android.bp
 kali-nethunter-kernel-builder/
+apply_all.sh
+
