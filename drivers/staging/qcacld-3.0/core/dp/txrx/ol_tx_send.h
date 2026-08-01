@@ -23,14 +23,14 @@
 #ifndef _OL_TX_SEND__H_
 #define _OL_TX_SEND__H_
 
-#include <qdf_nbuf.h>           /* qdf_nbuf_t */
-#include <cdp_txrx_cmn.h>       /* ol_txrx_vdev_t, etc. */
+struct ol_tx_desc_t;
+
+#include <cdp_txrx_cmn.h> /* ol_txrx_vdev_t, etc. */
+#include <qdf_nbuf.h>     /* qdf_nbuf_t */
 
 #if defined(CONFIG_HL_SUPPORT)
 
-static inline void ol_tx_discard_target_frms(ol_txrx_pdev_handle pdev)
-{
-}
+static inline void ol_tx_discard_target_frms(ol_txrx_pdev_handle pdev) {}
 #else
 
 /**
@@ -49,9 +49,8 @@ void ol_tx_discard_target_frms(ol_txrx_pdev_handle pdev);
  *      (for specifying the transmitter address for multicast / broadcast data)
  * @param netbuf - the tx frame
  */
-void
-ol_tx_send(struct ol_txrx_pdev_t *pdev,
-	   struct ol_tx_desc_t *tx_desc, qdf_nbuf_t msdu, uint8_t vdev_id);
+void ol_tx_send(struct ol_txrx_pdev_t *pdev, struct ol_tx_desc_t *tx_desc,
+                qdf_nbuf_t msdu, uint8_t vdev_id);
 
 /**
  * @brief Send a tx batch download to the target.
@@ -64,9 +63,8 @@ ol_tx_send(struct ol_txrx_pdev_t *pdev,
  * @param num_msdus - Total msdus chained in msdu_list
  */
 
-void
-ol_tx_send_batch(struct ol_txrx_pdev_t *pdev,
-		 qdf_nbuf_t msdu_list, int num_msdus);
+void ol_tx_send_batch(struct ol_txrx_pdev_t *pdev, qdf_nbuf_t msdu_list,
+                      int num_msdus);
 
 /**
  * @brief Send a tx frame with a non-std header or payload type to the target.
@@ -78,10 +76,9 @@ ol_tx_send_batch(struct ol_txrx_pdev_t *pdev,
  * @param netbuf - the tx frame
  * @param pkt_type - what kind of non-std frame is being sent
  */
-void
-ol_tx_send_nonstd(struct ol_txrx_pdev_t *pdev,
-		  struct ol_tx_desc_t *tx_desc,
-		  qdf_nbuf_t msdu, enum htt_pkt_type pkt_type);
+void ol_tx_send_nonstd(struct ol_txrx_pdev_t *pdev,
+                       struct ol_tx_desc_t *tx_desc, qdf_nbuf_t msdu,
+                       enum htt_pkt_type pkt_type);
 
 #ifdef QCA_COMPUTE_TX_DELAY
 /**
@@ -92,8 +89,8 @@ ol_tx_send_nonstd(struct ol_txrx_pdev_t *pdev,
  *
  * Return: NONE
  */
-void ol_tx_set_compute_interval(struct cdp_soc_t *soc_hdl,
-				uint8_t pdev_id, uint32_t interval);
+void ol_tx_set_compute_interval(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
+                                uint32_t interval);
 
 /**
  * ol_tx_packet_count() - Return the uplink (transmitted) packet counts
@@ -111,10 +108,9 @@ void ol_tx_set_compute_interval(struct cdp_soc_t *soc_hdl,
  *
  * Return: NONE
  */
-void
-ol_tx_packet_count(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
-		   uint16_t *out_packet_count,
-		   uint16_t *out_packet_loss_count, int category);
+void ol_tx_packet_count(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
+                        uint16_t *out_packet_count,
+                        uint16_t *out_packet_loss_count, int category);
 
 /**
  * ol_tx_delay() - get tx packet delay
@@ -126,10 +122,9 @@ ol_tx_packet_count(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
  *
  * Return: NONE
  */
-void
-ol_tx_delay(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
-	    uint32_t *queue_delay_microsec,
-	    uint32_t *tx_delay_microsec, int category);
+void ol_tx_delay(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
+                 uint32_t *queue_delay_microsec, uint32_t *tx_delay_microsec,
+                 int category);
 
 /**
  * ol_tx_delay_hist() - get tx packet delay histogram
@@ -140,9 +135,8 @@ ol_tx_delay(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
  *
  * Return: NONE
  */
-void
-ol_tx_delay_hist(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
-		 uint16_t *report_bin_values, int category);
+void ol_tx_delay_hist(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
+                      uint16_t *report_bin_values, int category);
 #endif /* QCA_COMPUTE_TX_DELAY */
 
 /**
@@ -154,14 +148,12 @@ ol_tx_delay_hist(struct cdp_soc_t *soc_hdl, uint8_t pdev_id,
  * Return: none
  */
 void ol_txrx_flow_control_cb(struct cdp_soc_t *soc_hdl, uint8_t vdev_id,
-			     bool tx_resume);
+                             bool tx_resume);
 
-#if defined(QCA_LL_LEGACY_TX_FLOW_CONTROL) || (defined(CONFIG_HL_SUPPORT) && \
-	 defined(QCA_HL_NETDEV_FLOW_CONTROL))
+#if defined(QCA_LL_LEGACY_TX_FLOW_CONTROL) ||                                  \
+    (defined(CONFIG_HL_SUPPORT) && defined(QCA_HL_NETDEV_FLOW_CONTROL))
 void ol_tx_flow_ct_unpause_os_q(ol_txrx_pdev_handle pdev);
 #else
-static inline void ol_tx_flow_ct_unpause_os_q(ol_txrx_pdev_handle pdev)
-{
-}
+static inline void ol_tx_flow_ct_unpause_os_q(ol_txrx_pdev_handle pdev) {}
 #endif
 #endif /* _OL_TX_SEND__H_ */
