@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
 
-# 1. Основные настройки
 KERNEL_DIR=$(pwd)
 OUT_DIR="$KERNEL_DIR/out"
 DEFCONFIG="sweet_defconfig"
 
-# 2. Окружение сборки для Clang
 export ARCH=arm64
 export SUBARCH=arm64
 
-# Укажи путь к папочке bin твоего Clang/LLVM (если он не в системном PATH)
-# Пример: export PATH="/home/kirill/clang/bin:$PATH"
+# Указываем Clang строго целевую архитектуру aarch64 для избежания ошибок с "sp"
+CLANG_FLAGS="--target=aarch64-linux-gnu"
+export KCFLAGS="$CLANG_FLAGS -Wno-implicit-enum-enum-cast -Wno-enum-enum-conversion -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error"
 
 echo "=========================================="
 echo "=== Сборка ядра на Clang (LLVM=1)      ==="
 echo "=== Папка сборки: $OUT_DIR"
 echo "=========================================="
 
-# Создаём папку для сборки
 mkdir -p "$OUT_DIR"
 
-# 3. Генерация конфигурации
 echo "--> Генерируем .config из $DEFCONFIG..."
 make O="$OUT_DIR" ARCH=arm64 LLVM=1 $DEFCONFIG
 
@@ -29,7 +26,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 4. Запуск компиляции через Clang + LLVM toolchain
 echo "--> Запускаем сборку ядра на $(nproc) потоках..."
 make -j$(nproc) O="$OUT_DIR" \
     ARCH=arm64 \
@@ -39,7 +35,6 @@ make -j$(nproc) O="$OUT_DIR" \
     CROSS_COMPILE=aarch64-linux-gnu- \
     CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
-# 5. Проверка результата
 if [ -f "$OUT_DIR/arch/arm64/boot/Image.gz-dtb" ] || [ -f "$OUT_DIR/arch/arm64/boot/Image.gz" ]; then
     echo "=========================================="
     echo "=== [УСПЕХ] Ядро успешно собрано! ==="
