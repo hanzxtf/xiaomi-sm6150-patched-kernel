@@ -1,60 +1,23 @@
-# AnyKernel3 Ramdisk Mod Script
-# osm0sis @ xda-developers
-# Changes for SkyDragon by HolyAngel @ xda-developers
-# Changes for NetHunter by Re4son
-
-## AnyKernel setup
+# AnyKernel3 Setup
 # begin properties
-properties() { '
-kernel.string=NetHunter Kernel for the OnePlus 7 Pro
+properties() {
+kernel.string=KernelSU-Next + SUSFS Kernel by Kirill for Xiaomi Redmi Note 10 Pro (sweet)
 do.devicecheck=1
-do.modules=1
-do.systemless=0 #Never use this for NetHunter kernels as it prevents us from writing to /lib/modules
+do.modules=0
+do.systemless=1
 do.cleanup=1
-do.cleanuponabort=0
-device.name1=OnePlus7Pro
-device.name2=guacamole
-device.name3=OnePlus 7 Pro
-device.name4=Guacamole
-device.name5=OnePlus7
-device.name6=guacamoleb
-device.name7=OnePlus 7
-device.name8=Guacamoleb
-device.name9=OnePlus7ProNR
-device.name10=OnePlus7ProTMO
-device.name11=hotdogb
-device.name12=hotdog
-device.name13=OnePlus7T
-device.name14=OnePlus7TPro
-supported.versions=
-supported.patchlevels=
-'; } # end properties
+do.cleanuntil=0
+device.name1=sweet
+device.name2=sweetin
+device.name3=Redmi Note 10 Pro
+device.name4=Redmi Note 10 Pro Max
+} # end properties
 
 # shell variables
 block=/dev/block/bootdevice/by-name/boot;
-is_slot_device=1;
-ramdisk_compression=auto;
-
-## AnyKernel methods (DO NOT CHANGE)
-# import patching functions/variables - see for reference
-. tools/ak3-core.sh;
-
-## Trim partitions
-fstrim -v /cache;
-fstrim -v /data;
-
-## AnyKernel file attributes
-# set permissions/ownership for included ramdisk files
-chmod -R 750 $ramdisk/*;
-chown -R root:root $ramdisk/*;
-
-## AnyKernel install
-dump_boot;
-
-# begin ramdisk changes
-
-# init.rc
-backup_file init.rc;
+is_slot_device=0;
+ramdisk_available=0;
+remove_system_other=0;backup_file init.rc;
 replace_string init.rc "cpuctl cpu,timer_slack" "mount cgroup none /dev/cpuctl cpu" "mount cgroup none /dev/cpuctl cpu,timer_slack";
 
 # init.tuna.rc

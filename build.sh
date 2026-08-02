@@ -31,12 +31,12 @@ make O="$OUT_DIR" ARCH=arm64 LLVM=1 "$DEFCONFIG"
 
 echo "--> Запускаем сборку ядра на $(nproc) потоках..."
 make -j$(nproc) O="$OUT_DIR" \
-    ARCH=arm64 \
-    LLVM=1 \
-    LLVM_IAS=1 \
-    CLANG_TRIPLE=aarch64-linux-gnu- \
-    CROSS_COMPILE=aarch64-linux-gnu- \
-    CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+  ARCH=arm64 \
+  LLVM=1 \
+  LLVM_IAS=1 \
+  CLANG_TRIPLE=aarch64-linux-gnu- \
+  CROSS_COMPILE=aarch64-linux-gnu- \
+  CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
 echo "=========================================="
 echo "=== [3/4] Склейка Image.gz и DTB        ==="
@@ -45,11 +45,11 @@ IMAGE_GZ="$OUT_DIR/arch/arm64/boot/Image.gz"
 DTB="$OUT_DIR/arch/arm64/boot/dts/qcom/xiaomi-sdmmagpie.dtb"
 
 if [ -f "$IMAGE_GZ" ] && [ -f "$DTB" ]; then
-    cat "$IMAGE_GZ" "$DTB" > "${AK3_DIR}/Image.gz-dtb"
-    echo "--> Image.gz-dtb успешно сформирован!"
+  cat "$IMAGE_GZ" "$DTB" >"${AK3_DIR}/Image.gz-dtb"
+  echo "--> Image.gz-dtb успешно сформирован!"
 else
-    echo "[!] ОШИБКА: Не найден $IMAGE_GZ или $DTB!"
-    exit 1
+  echo "[!] ОШИБКА: Не найден $IMAGE_GZ или $DTB!"
+  exit 1
 fi
 
 echo "=========================================="
@@ -63,3 +63,19 @@ echo "=========================================="
 echo "=== [УСПЕХ] Готовый архив ядра собрался: ==="
 echo ">>> $KERNEL_DIR/$ZIP_NAME <<<"
 echo "=========================================="
+
+# Удаляем временный Image.gz-dtb из папки AnyKernel3
+rm -f "${AK3_DIR}/Image.gz-dtb"
+
+# Интерактивное предложение очистить папку out/
+read -p "Желаешь удалить артефакты сборки из папки out/? (y/N): " choice
+case "$choice" in
+[yY][eE][sS] | [yY])
+  echo "--> Очистка $OUT_DIR..."
+  rm -rf "$OUT_DIR"
+  echo "Папка out/ успешно очищена!"
+  ;;
+*)
+  echo "Папка out/ сохранена для инкрементальной (быстрой) пересборки."
+  ;;
+esac
