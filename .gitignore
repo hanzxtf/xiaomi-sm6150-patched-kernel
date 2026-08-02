@@ -6,3 +6,8 @@ KIRILLS_KERNEL_*.zip
 anykernel3/*.zip
 anykernel3/*.gz-dtb
 anykernel3/Image.gz-dtb
+
+# Временные объекты генерации скриптов сборки
+scripts/**/*.cmd
+scripts/**/*.o
+scripts/**/modules.order
