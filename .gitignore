@@ -11,3 +11,5 @@ anykernel3/Image.gz-dtb
 scripts/**/*.cmd
 scripts/**/*.o
 scripts/**/modules.order
+
+kali-nethunter-kernel-builder/
