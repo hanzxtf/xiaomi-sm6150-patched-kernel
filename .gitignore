@@ -13,3 +13,4 @@ scripts/**/*.o
 scripts/**/modules.order
 
 kali-nethunter-kernel-builder/
+kernel_test/
