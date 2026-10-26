@@ -7,7 +7,6 @@ set -e
 KERNEL_DIR=$(pwd)
 OUT_DIR="$KERNEL_DIR/out"
 AK3_DIR="$KERNEL_DIR/anykernel3"
-KERNEL_NAME="-hanzxtf"
 DEFCONFIG="sweet_defconfig"
 ZIP_NAME="HANZXTF_KERNEL_$(date +%Y%m%d_%H%M).zip"
 
@@ -35,7 +34,6 @@ make -j$(nproc) O="$OUT_DIR" \
   ARCH=arm64 \
   LLVM=1 \
   LLVM_IAS=1 \
-  LOCALVERSION="$KERNEL_NAME" \
   CLANG_TRIPLE=aarch64-linux-gnu- \
   CROSS_COMPILE=aarch64-linux-gnu- \
   CROSS_COMPILE_ARM32=arm-linux-gnueabi-
