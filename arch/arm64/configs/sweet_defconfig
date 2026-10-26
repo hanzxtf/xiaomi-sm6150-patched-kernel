@@ -6123,6 +6123,6 @@ CONFIG_MACH_XIAOMI_SWEET=y
 CONFIG_KSU=y
 CONFIG_KSU_SUSFS=y
 
-# Обязательно для работы KSU-Next без manual hooks
+# Required by KSU-Next when manual hooks are off
 CONFIG_KPROBE_EVENTS=y
 CONFIG_KSU_MANUAL_HOOK=y
