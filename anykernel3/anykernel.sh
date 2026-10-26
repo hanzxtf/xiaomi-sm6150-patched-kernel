@@ -5,7 +5,7 @@
 
 ### AnyKernel setup
 properties() { '
-kernel.string=KernelSU-Next + SUSFS Kernel by Kirill
+kernel.string=KernelSU-Next + SUSFS Kernel by Hanz
 do.devicecheck=1
 do.modules=0
 do.systemless=1
