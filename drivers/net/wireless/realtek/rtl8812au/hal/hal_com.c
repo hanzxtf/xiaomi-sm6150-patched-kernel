@@ -2320,7 +2320,7 @@ u32 rtw_sec_read_cam(_adapter *adapter, u8 addr)
 	return rdata;
 }
 
-void rtw_sec_write_cam(_adapter *adapter, u8 addr, u32 wdata)
+void rtl8812au_sec_write_cam(_adapter *adapter, u8 addr, u32 wdata)
 {
 	_mutex *mutex = &adapter_to_dvobj(adapter)->cam_ctl.sec_cam_access_mutex;
 	u32 cnt = 0;
@@ -2456,11 +2456,11 @@ void rtw_sec_write_cam_ent(_adapter *adapter, u8 id, u16 ctrl, u8 *mac, u8 *key)
 		}
 #endif
 
-		rtw_sec_write_cam(adapter, addr, wdata);
+		rtl8812au_sec_write_cam(adapter, addr, wdata);
 	}
 
 #if defined(CONFIG_RTL8192F)
-	rtw_sec_write_cam(adapter, addr1, wdata1);
+	rtl8812au_sec_write_cam(adapter, addr1, wdata1);
 #endif
 }
 
@@ -2469,7 +2469,7 @@ void rtw_sec_clr_cam_ent(_adapter *adapter, u8 id)
 	u8 addr;
 
 	addr = (id << 3);
-	rtw_sec_write_cam(adapter, addr, 0);
+	rtl8812au_sec_write_cam(adapter, addr, 0);
 }
 
 bool rtw_sec_read_cam_is_gk(_adapter *adapter, u8 id)

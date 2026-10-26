@@ -10147,7 +10147,7 @@ int rtw_wiphy_register(struct wiphy *wiphy)
 {
 	RTW_INFO(FUNC_WIPHY_FMT"\n", FUNC_WIPHY_ARG(wiphy));
 
-	rtw_regd_init(wiphy);
+	rtl8812au_regd_init(wiphy);
 
 	return wiphy_register(wiphy);
 }
