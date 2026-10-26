@@ -7,9 +7,9 @@ set -e
 KERNEL_DIR=$(pwd)
 OUT_DIR="$KERNEL_DIR/out"
 AK3_DIR="$KERNEL_DIR/anykernel3"
-KERNEL_NAME="-NS-KERNEL"
+KERNEL_NAME="-hanzxtf"
 DEFCONFIG="sweet_defconfig"
-ZIP_NAME="KIRILLS_KERNEL_$(date +%Y%m%d_%H%M).zip"
+ZIP_NAME="HANZXTF_KERNEL_$(date +%Y%m%d_%H%M).zip"
 
 export ARCH=arm64
 export SUBARCH=arm64
