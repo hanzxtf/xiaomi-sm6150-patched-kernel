@@ -6125,4 +6125,4 @@ CONFIG_KSU_SUSFS=y
 
 # Обязательно для работы KSU-Next без manual hooks
 CONFIG_KPROBE_EVENTS=y
-# CONFIG_KSU_MANUAL_HOOK is not set
+CONFIG_KSU_MANUAL_HOOK=y
